@@ -26,10 +26,15 @@
             <td>{{ $post->created_at }}</td>
             <td>{{ $post->updated_at }}</td>
             <td>
-                <a class="btn btn-primary" href="#">Edit</a>
+                <a class="btn btn-primary" href="{{ route('admin.posts.edit', $post->slug) }}">Edit</a>
             </td>
             <td>
-                <a class="btn btn-danger" href="#">Delete</a>
+              <form action="{{ route('admin.posts.destroy',$post->slug) }}" method="post">
+                @csrf
+                @method('delete')
+ 
+                <input class="btn btn-danger" type="submit" value="DELETE">
+              </form>
             </td>
           </tr>
 

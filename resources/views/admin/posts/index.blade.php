@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
    
+   @if (session('post-deleted'))
+      <div class="alert alert-success">
+         <span class="text-muted">Post Delete Successifully:</span>
+         <p class="text-primary"> {{ session('post-deleted') }}</p>
+      </div>
+   @endif
+
    <h1 class="display-4 my-5">Post Archive</h1>
    <table class="table">
       <thead>
@@ -28,10 +35,15 @@
                <a class="btn btn-success" href="{{ route('admin.posts.show',$post->slug) }}">Show</a>
             </td>
             <td>
-               <a class="btn btn-primary" href="#">Edit</a>
+               <a class="btn btn-primary" href="{{ route('admin.posts.edit',$post->slug) }}">Edit</a>
             </td>
             <td>
-               <a class="btn btn-danger" href="#">Delete</a>
+               <form action="{{ route('admin.posts.destroy',$post->slug) }}" method="post">
+               @csrf
+               @method('delete')
+
+               <input class="btn btn-danger" type="submit" value="DELETE">
+               </form>
             </td>
          </tr>
          @endforeach

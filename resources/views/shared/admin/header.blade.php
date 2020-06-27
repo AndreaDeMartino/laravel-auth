@@ -34,6 +34,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <a class="nav-link" href="{{ route('admin.posts.index') }}">All Posts</a>
+                        <a class="nav-link" href="{{ route('admin.posts.create') }}">New Post</a>
                         <a class="nav-link" href="{{ route('home') }}">Welcome Page</a>
                     </ul>
 
