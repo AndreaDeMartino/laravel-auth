@@ -33,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <a class="nav-link" href="{{ route('post.index') }}">Posts</a>
+                        <a class="nav-link" href="{{ route('posts.index') }}">Posts</a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -61,7 +61,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('admin.home') }}">Admin</a>
+                                    <a class="dropdown-item" href="{{ route('admin.home') }}">Admin Home</a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf

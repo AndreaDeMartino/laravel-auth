@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Post;
+
+// Import per utizzare funzioni per autenticazione Auth
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -14,7 +18,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // Filtro su post utenticato
+        $posts = Post::where('user_id',Auth::id())->orderBy('created_at', 'desc')->paginate(6);
+
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -44,9 +51,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $post = Post::where('slug',$slug)->first();
+
+        if (empty($post)) {
+            abort(404);
+        }
+        
+        return view('admin.posts.show',compact('post'));
     }
 
     /**

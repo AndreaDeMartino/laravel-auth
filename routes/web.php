@@ -23,7 +23,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Post Index Guest
-Route::get('/posts', 'PostController@index')->name('post.index');
+Route::get('/posts', 'PostController@index')->name('posts.index');
 
 /****************************************************
 * ROUTES AUTHENTICATION
@@ -36,13 +36,15 @@ Auth::routes();
 ****************************************************/
 // Rotte con prefisso admin, con check su autenticazione avvenuta tramite middleware('auth') nella folder Admin (namespace)
 Route::prefix('admin') // URI
-    ->name('admin.') // NAME
+    ->name('admin.') // PER EVITARE COLLISIONE CON POSTS.INDEX AGGIUNGI PREFISSO ANCHE SU NAME
     ->namespace('Admin') //ACTION
     ->middleware('auth')
     ->group(function(){
 
         // Admin Home
-        Route::get('/home', 'HomeController@index')->name('home');
+        //Con prefisso anche su name, il name diventa admin.home
+        Route::get('/home', 'HomeController@index')->name('home'); 
+        
 
         // Admin Posts
         Route::resource('/posts','PostController');
