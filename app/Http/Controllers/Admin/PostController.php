@@ -154,6 +154,7 @@ class PostController extends Controller
         $deleted = $post->delete();
 
         if ($deleted){
+            
             // Cancellazione img
             if(!empty($post->path_img)){
                 Storage::disk('public')->delete($post->path_img);
