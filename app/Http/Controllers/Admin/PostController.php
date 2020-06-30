@@ -8,6 +8,8 @@ use App\Post;
 use Illuminate\Support\Str;
 // Import per utizzare funzioni per autenticazione Auth
 use Illuminate\Support\Facades\Auth;
+// Storage
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -50,12 +52,18 @@ class PostController extends Controller
         $data['user_id'] = Auth::id();
         $data['slug'] = Str::slug($data['title'],'-');
 
+        // Check su path_img
+        if( !empty($data['path_img']) ){
+            // Salva il file su disco nella directory images e aggiorna la colonna della tabella path_img
+            $data['path_img'] = Storage::disk('public')->put('images', $data['path_img']);
+        }
         $newPost->fill($data);
 
         $saved = $newPost->save();
 
         if($saved){
             return redirect()->route('admin.posts.show',$newPost->slug);
+
         }
     }
 
@@ -108,6 +116,17 @@ class PostController extends Controller
 
         $data['slug'] = Str::slug($data['title'],'-');
 
+        if (!empty($data['path_img'])){
+            
+            // Delete img precedente
+            if (!empty($post['path_img'])){
+                Storage::disk('public')->delete($post['path_img']);
+            }
+
+            // Set nuova img
+            $data['path_img'] = Storage::disk('public')->put('images', $data['path_img']);
+        }
+
         $updated = $post->update($data);
 
         if ($updated){
@@ -135,6 +154,11 @@ class PostController extends Controller
         $deleted = $post->delete();
 
         if ($deleted){
+            // Cancellazione img
+            if(!empty($post->path_img)){
+                Storage::disk('public')->delete($post->path_img);
+            }
+
             return redirect()->route('admin.posts.index')->with('post-deleted',$title);
         }
     }
@@ -143,7 +167,9 @@ class PostController extends Controller
     private function validationRules(){
         return [
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            // Validation backend su upload img
+            'path_img' => 'image'
         ];
     }
 }

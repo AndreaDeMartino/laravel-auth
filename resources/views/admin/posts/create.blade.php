@@ -17,8 +17,8 @@
 
     @endif
 
-
-    <form action="{{ route('admin.posts.store') }}" method="post">
+    {{-- enctype per utilizzare upload img --}}
+    <form action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     @method("POST")
     
@@ -30,6 +30,12 @@
       <div class="form-group">
         <label for="body">Body</label>
         <textarea class="form-control" name="body" id="body"> {{ old('body') }}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="path_img">Post Image</label>
+        {{-- Accept, è una verifica frontend per scegliere immagini --}}
+        <input class="form-control" type="file" name="path_img" id="path_img" accept="image/*">
       </div>
 
       <input class="btn btn-primary" type="submit" value="CREATE">

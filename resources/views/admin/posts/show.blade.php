@@ -42,5 +42,13 @@
       
     </table>
 
+
+    <h3 class="mb-4">Post Image</h3>
+
+    @if (!empty($post->path_img))
+      <img src="{{ asset('storage/' . $post->path_img) }}" alt="{{ $post->name }}">
+    @else
+      <div class="alert alert-danger">No Image for this post</div>
+    @endif
   </div>
 @endsection
