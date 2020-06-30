@@ -6,10 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Str;
+
 // Import per utizzare funzioni per autenticazione Auth
 use Illuminate\Support\Facades\Auth;
+
 // Storage
 use Illuminate\Support\Facades\Storage;
+
+// Mail
+use App\Mail\NewPost;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -62,6 +68,10 @@ class PostController extends Controller
         $saved = $newPost->save();
 
         if($saved){
+
+            // Invio Email inviando quello che c'è nella vista new-post utilizzando la classe creata NewPost passando il nuovo post creato $newPost
+            Mail::to('user@test.it')->send(new NewPost($newPost));
+
             return redirect()->route('admin.posts.show',$newPost->slug);
 
         }
